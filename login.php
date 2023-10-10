@@ -1,31 +1,35 @@
-<?php 
+<?php
 
-require 'config/config.php';
+  session_start();
 
-if($_POST){
-  $name = $_POST['name'];
-  $email = $_POST['email'];
-  $password = $_POST['password'];
+  require 'config/config.php';
 
-  $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
+  if($_POST){
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
 
     $stmt->bindValue(':email',$email);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
     if($user){
-      echo "<script>alert('Email duplicated')</script>";
-    }else {
-      $stmt = $pdo -> prepare("INSERT INTO users(name,email,password) VALUES (:name,:email,:password)");
-      $result = $stmt->execute(
-          array(':name' => $name, ':email' => $email,':password'=> $password)
-      );
-      if($result){
-          echo "<script>alert('successfully Register');window.location.href='login.php';</script>";
+      if($user['password'] == $password){
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['name'];
+        $_SESSION['logged_in'] = time();
+
+        header("Location: index.php");
       }
     }
+    echo "<script>alert('Incorrect credentials')</script>";
+  }
 
-}
+
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -33,7 +37,7 @@ if($_POST){
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Registration Page</title>
+  <title>AdminLTE 3 | Log in</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -44,25 +48,17 @@ if($_POST){
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
-<body class="hold-transition register-page">
-<div class="register-box">
-  <div class="register-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="../../index2.html"><b>Blog</b>Admin</a>
   </div>
-
+  <!-- /.login-logo -->
   <div class="card">
-    <div class="card-body register-card-body">
-      <p class="login-box-msg">Register a new membership</p>
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="register.php" method="post">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Full name" name="name">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-user"></span>
-            </div>
-          </div>
-        </div>
+      <form action="login.php" method="post">
         <div class="input-group mb-3">
           <input type="email" class="form-control" placeholder="Email" name="email">
           <div class="input-group-append">
@@ -79,25 +75,23 @@ if($_POST){
             </div>
           </div>
         </div>
-        
         <div class="row">
-          
+         
           <!-- /.col -->
           <div class="container">
-            <button type="submit" class="btn btn-primary btn-block">Register</button><br>
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <a href="register.php" type="button" class="btn btn-default btn-block">Register</a>
           </div>
           <!-- /.col -->
         </div>
       </form>
 
       
-
-      <a href="login.php" class="text-center">I already have a membership</a>
     </div>
-    <!-- /.form-box -->
-  </div><!-- /.card -->
+    <!-- /.login-card-body -->
+  </div>
 </div>
-<!-- /.register-box -->
+<!-- /.login-box -->
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
