@@ -18,6 +18,7 @@
       if($user['password'] == $password){
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['name'];
+        $_SESSION['role'] = 0;
         $_SESSION['logged_in'] = time();
 
         header("Location: index.php");
@@ -37,7 +38,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Log in</title>
+  <title>Blog | Log in</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -51,7 +52,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Blog</b>Admin</a>
+    <a href="../../index2.html"><b>Y2K</b>BLOG</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">

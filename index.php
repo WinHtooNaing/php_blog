@@ -8,6 +8,12 @@
   header("Location: login.php");
   
  }
+ if($_SESSION['role']  != 0){
+  header("Location: login.php");
+ }
+
+
+
 
 ?>
 
@@ -17,7 +23,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Widgets</title>
+  <title>Y2K BLOG</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -37,7 +43,7 @@
   <div class="content-wrapper" style="margin-left:0px !important">
     <section class="content-header">
       <div class="container-fluid">
-            <h1 style="text-align: center;">Blog Site</h1>
+            <h1 style="text-align: center;">Y2K BLOG</h1><br><br>
       </div>
     </section>
 
@@ -101,11 +107,13 @@
   <!-- /.content-wrapper -->
 
   <footer class="main-footer" style="margin-left: 0px !important;">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
+  <!-- To the right -->
+  <div class="float-right d-none d-sm-inline">
+    <a href="logout.php" type="button" class="btn btn-primary">Logout</a>
+  </div>
+  <!-- Default to the left -->
+  <strong>Copyright &copy; 2023 <a href="https://github.com/winhtoonaing">winhtoonaing.github.io</a>.</strong> All rights reserved.
+</footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

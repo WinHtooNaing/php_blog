@@ -37,7 +37,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Blog Table</h3>
+                <h3 class="card-title">Users Table</h3>
               </div>
 
               <?php
@@ -50,14 +50,14 @@
               $offset = ($pageno - 1) *  $numOfrecs ;
 
               if(empty($_POST['search']) && empty($_COOKIE['search'])){
-                $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
+                $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC");
             $stmt->execute();
             $rawResult = $stmt ->fetchAll();
 
             $total_pages = ceil(count($rawResult) / $numOfrecs);
 
 
-            $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs");
+            $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC LIMIT $offset,$numOfrecs");
             $stmt->execute();
             $result = $stmt ->fetchAll();
               }else {
@@ -65,7 +65,7 @@
                 $searchKey = isset($_POST['search']) ? $_POST['search'] : (isset($_COOKIE['search']) ? $_COOKIE['search'] : '');
 
                 // $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'] ; ရေးမရဘူး ဖြစ်နေတယ်
-                $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
+                $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
                
             $stmt->execute();
             $rawResult = $stmt ->fetchAll();
@@ -73,7 +73,7 @@
             $total_pages = ceil(count($rawResult) / $numOfrecs);
 
 
-            $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
             $stmt->execute();
             $result = $stmt ->fetchAll();
                 }
@@ -82,17 +82,14 @@
 
               <!-- /.card-header -->
               <div class="card-body">
-                <div>
-                  <a href="add.php" class="btn btn-success" type="button">New Blog Post</a>
-                </div>
-                <br/>
+                
                 <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th style="width: 10px">id</th>
-                      <th>Title</th>
-                      <th>Content</th>
-                      <th style="width: 200px">Actions</th>
+                      <th>name</th>
+                      <th>email</th>
+                      <th style="width: 200px">created_at</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -103,20 +100,10 @@
                     ?>
                     <tr>
                       <td><?php echo $i; ?></td>
-                      <td><?php echo $value['title']; ?></td>
-                      <td><?php echo substr($value['content'],0,50); ?></td>
-                      <td>
-                        <div class="btn-group">
-                          <div class="container">
-                            <a href="edit.php?id=<?php echo $value['id'] ?>" type="button" class="btn btn-warning">Edit</a>
-                          </div>
-                          <div class="container">
-                            <a href="delete.php?id=<?php echo $value['id'] ?>"
-                            onclick="return confirm('Are you sure you want to delete this item')"
-                             type="button" class="btn btn-danger">Delete</a>
-                          </div>
-                        </div>
-                      </td>
+                      <td><?php echo $value['name']; ?></td>
+                      <td><?php echo $value['email']; ?></td>
+                      <td><?php echo $value['created_at']; ?></td>
+                      
                     </tr>
                     <?php
                     $i++;
