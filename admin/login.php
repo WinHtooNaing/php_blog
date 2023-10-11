@@ -8,7 +8,7 @@
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email && role=1");
 
     $stmt->bindValue(':email',$email);
     $stmt->execute();
@@ -84,7 +84,8 @@
           </div>
           <!-- /.col -->
         </div>
-      </form>
+      </form><br>
+      <a href="/BLOG/login.php" class="text-center">User Login</a>
 
       
     </div>

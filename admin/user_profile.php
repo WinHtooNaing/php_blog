@@ -50,7 +50,7 @@
               $offset = ($pageno - 1) *  $numOfrecs ;
 
               if(empty($_POST['search']) && empty($_COOKIE['search'])){
-                $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC");
+                $stmt = $pdo->prepare("SELECT * FROM users  ORDER BY id DESC");
             $stmt->execute();
             $rawResult = $stmt ->fetchAll();
 
@@ -102,7 +102,7 @@
                       <td><?php echo $i; ?></td>
                       <td><?php echo $value['name']; ?></td>
                       <td><?php echo $value['email']; ?></td>
-                      <td><?php echo $value['created_at']; ?></td>
+                      <td><?php echo date('d-m-Y',strtotime($value['created_at'])) ?></td>
                       
                     </tr>
                     <?php
