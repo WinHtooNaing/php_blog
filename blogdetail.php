@@ -37,7 +37,15 @@
 
      
       if($_POST){
-        $comment = $_POST['comment'];
+
+
+        
+          if(empty($_POST['comment']) ){
+            if(empty($_POST['comment'])){
+              $cmtName = "Comment can be required";
+            }
+          }else{
+            $comment = $_POST['comment'];
        
       
            
@@ -48,6 +56,9 @@
             if($result){
                 header("Location: blogdetail.php?id=".$blogId);
             }
+          }  
+
+       
         }
       
       
@@ -138,6 +149,7 @@
 
                 <form action="" method="post">
                   <div class="img-push">
+                  <p style="color: red;"><?php echo empty($cmtName) ? '' : $cmtName ?></p>
                     <input type="text" name="comment" class="form-control form-control-sm" placeholder="Press enter to post comment">
                   </div>
                 </form>

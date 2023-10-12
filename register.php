@@ -3,9 +3,24 @@
 require 'config/config.php';
 
 if($_POST){
-  $name = $_POST['name'];
+  if(empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password']) || strlen($_POST['password']) < 4){
+    if(empty($_POST['name'])){
+      $nameError = "Name can be required";
+    }
+    if(empty($_POST['email'])){
+      $emailError = "Email can be required";
+    }
+    if(empty($_POST['password'])){
+      $passwordError = "Password can be required";
+    }
+    if(strlen($_POST['password']) < 4){
+      $passwordError = 'Password should be 4 characters at least';
+    }
+
+  }else{
+    $name = $_POST['name'];
   $email = $_POST['email'];
-  $password = $_POST['password'];
+  $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
 
   $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
 
@@ -23,6 +38,9 @@ if($_POST){
           echo "<script>alert('successfully Register');window.location.href='login.php';</script>";
       }
     }
+
+  }
+  
 
 }
 ?>
@@ -55,6 +73,7 @@ if($_POST){
       <p class="login-box-msg">Register a new membership</p>
 
       <form action="register.php" method="post">
+      <p style="color: red;"><?php echo empty($nameError) ? '' : $nameError ?></p>
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Full name" name="name">
           <div class="input-group-append">
@@ -63,6 +82,7 @@ if($_POST){
             </div>
           </div>
         </div>
+        <p style="color: red;"><?php echo empty($emailError) ? '' : $emailError ?></p>
         <div class="input-group mb-3">
           <input type="email" class="form-control" placeholder="Email" name="email">
           <div class="input-group-append">
@@ -71,6 +91,7 @@ if($_POST){
             </div>
           </div>
         </div>
+        <p style="color: red;"><?php echo empty($passwordError) ? '' : $passwordError ?></p>
         <div class="input-group mb-3">
           <input type="password" class="form-control" placeholder="Password" name="password">
           <div class="input-group-append">
